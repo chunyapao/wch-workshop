@@ -87,10 +87,8 @@ chromadb            — Vector database สำหรับ RAG
 sentence-transformers — Embedding model
 pypdf               — อ่าน PDF
 datasets            — โหลดและจัดการ dataset
-pandas              — จัดการข้อมูลตาราง
 scikit-learn        — ML utilities
 transformers        — Tokenizer และ model utilities
-accelerate          — Training acceleration
 mcp                 — Model Context Protocol client/server
 yfinance            — ดึงข้อมูลหุ้นจาก Yahoo Finance
 ```
