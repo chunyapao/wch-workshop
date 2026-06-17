@@ -1,0 +1,19 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+
+output/
+01_pretraining/data/
+02_finetuning/data/raw/
+**.parquet
+.venv
+**adapters
+05_rag/tor_db/

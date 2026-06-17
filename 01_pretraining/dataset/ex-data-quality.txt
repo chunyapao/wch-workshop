@@ -1,0 +1,32 @@
+Boonsong Srithong
+heyboonsong@gmail.com
+www.linkedin.com/in/heyboonsong
+boonsong.dev/
+
+นักพัฒนาผลิตภัณฑ์ที่หลงใหลในการเขียนโค้ด ผมเชื่อมโยงช่องว่างระหว่างความท้าทายทางธุรกิจและโซลูชันทางเทคนิคผ่านการร่วมมือกับลูกค้าอย่างใกล้ชิด ส่งมอบผลลัพธ์ที่เป็นรูปธรรมและเน้นไปที่ผลงาน มีทักษะใน Full-Stack Development, Test Automation และ DevOps นอกเหนือจากการพัฒนา ผมยังสนุกกับการเขียนบทความและรู้สึกพึงพอใจอย่างมากในการแบ่งปันความรู้และมุมมองให้กับชุมชน
+
+เข้าร่วมเป็นสมาชิกของ LeSS Example Team ซึ่งเป็นโชว์รูมสาธิตการนำ Large-Scale Scrum (LeSS) ไปใช้สำหรับการพัฒนาผลิตภัณฑ์ขนาดใหญ่ ได้รับประสบการณ์จริงจากการสังเกตและประยุกต์ใช้หลักการร่วมมือของทีมในสภาพแวดล้อม LeSS
+
+ในฐานะสมาชิกทีม XSpring Capital Public Company Limited ผมได้ส่งมอบแอปพลิเคชันบนมือถือสำหรับการซื้อขาย Digital Token และสินทรัพย์ดิจิทัล พัฒนาระบบหลังบ้านสำหรับการเริ่มต้นใช้งานของลูกค้าและการจัดการคำสั่งซื้อ และเป็นผู้นำด้านแนวปฏิบัติด้านการทดสอบแบบ E2E
+
+ที่ InnovestX Securities Company Limited ทำการปรับปรุงทางเทคนิค: การพัฒนาฟังก์ชันการซื้อขาย (สถาปัตยกรรม Micro-Frontend) การปรับเปลี่ยนระบบหลังบ้าน (Microservices) และการดำเนินการย้ายระบบ IdP (Keycloak)
+
+มีส่วนร่วมในการเขียนแอปพลิเคชัน BAAC Mobile ขึ้นใหม่โดยใช้ Flutter และ golang ที่ Bank for Agriculture and Agricultural Cooperatives โดยเน้นที่ฟังก์ชันการทำงานหลักของธนาคารและปรับปรุงเสถียรภาพ/ประสิทธิภาพของแอปพลิเคชันเป็นหลัก
+
+พัฒนาระบบการวางแผนทางการเงินแบบครบวงจรเพื่อสร้างแบบจำลองทางการเงินที่ปรับแต่งตามลูกค้า KKP รวมถึงการวางแผนเกษียณอายุและการวางแผนการศึกษา ที่ Kiatnakin Phatra Bank Public Company Limited
+
+ทำงานพัฒนาแพลตฟอร์มดำเนินการ Block Trade สำหรับ Single Stock Futures (SSF) ระบบนี้ทำให้โบรกเกอร์สามารถเป็นคู่สัญญาโดยตรงกับนักลงทุน ช่วยอำนวยความสะดวกในธุรกรรมอนุพันธ์ปริมาณมาก ร่วมกับ CGSI Securities - CGS International
+
+ร่วมมือกับตลาดหลักทรัพย์แห่งประเทศไทย (SET) ในการพัฒนาแพลตฟอร์มสำคัญที่ออกแบบมาเพื่อเตรียมความพร้อมให้กับ SMEs และ Startups สู่เส้นทาง Initial Public Offering (IPO) ที่ The Stock Exchange of Thailand
+
+พัฒนาแอปพลิเคชัน Investment Fund Assistant สำหรับลูกค้า DBS Vickers Securities Thailand ทำให้สามารถทำธุรกรรมแบบ end-to-end รวมถึงคำสั่งซื้อ ขาย สับเปลี่ยน และ Dollar-Cost Averaging (DCA)
+
+พัฒนาระบบ SET Market Maker อำนวยความสะดวกในการซื้อขายแบบอัตโนมัติและการให้สภาพคล่อง ที่ SETTRADE .COM CO., LTD
+
+ทำงานในตำแหน่ง Full-Stack แบบผสมผสาน โดยเน้นการออกแบบสถาปัตยกรรมและการนำ pattern มาประยุกต์ใช้ในการพัฒนาทั้ง Backend และ Frontend และสำรวจ tech stack ใหม่ๆ ให้กับบริษัท OfficeMate (Thai) Company Limited
+
+นักพัฒนา Backend เน้นการพัฒนาระบบ CRM ที่ BUILK ONE GROUP
+
+นักพัฒนา Android ทำงานในทีมสร้างแอปพลิเคชันติดตามการจัดส่งพัสดุบนมือถือ ที่ National Electronics and Computer Technology Center (NECTEC)
+
+Dhurakij Pundit University Bachelor of Engineering Computer Software Engineering

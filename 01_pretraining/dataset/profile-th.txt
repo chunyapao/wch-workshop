@@ -1,0 +1,120 @@
+   
+
+Contact Boonsong Srithong
+heyboonsong@gmail.com
+
+Product Developer ที่ ODDS
+www.linkedin.com/in/heyboonsong กรุงเทพมหานคร, ประเทศไทย
+(LinkedIn)
+boonsong.dev/ (Personal)
+
+Summary
+ทักษะยอดนิยม นักพัฒนาผลิตภัณฑ์ที่หลงใหลในการเขียนโค้ด ผมเชื่อมโยงช่องว่าง
+Full-Stack Development ระหว่างความท้าทายทางธุรกิจและโซลูชันทางเทคนิคผ่านการร่วมมือ
+Test Automation กับลูกค้าอย่างใกล้ชิด ส่งมอบผลลัพธ์ที่เป็นรูปธรรมและเน้นไปที่ผลงาน
+DevOps
+
+นอกเหนือจากการพัฒนา ผมยังสนุกกับการเขียนบทความและรู้สึก
+พึงพอใจอย่างมากในการแบ่งปันความรู้และมุมมองให้กับ
+ชุมชน
+
+Experience
+ODDS-TEAM
+5 ปี 6 เดือน
+LeSS Example
+มกราคม 2021 - ปัจจุบัน (5 ปี 6 เดือน)
+กรุงเทพมหานคร, ประเทศไทย
+เข้าร่วมเป็นสมาชิกของ LeSS Example Team ซึ่งเป็นโชว์รูม
+สาธิตการนำ Large-Scale Scrum (LeSS) ไปใช้สำหรับการพัฒนาผลิตภัณฑ์ขนาดใหญ่
+ได้รับประสบการณ์จริงจากการสังเกตและประยุกต์ใช้หลักการ
+ร่วมมือของทีมในสภาพแวดล้อม LeSS
+
+Development Team - XSpring Capital Public Company Limited
+พฤศจิกายน 2024 - ธันวาคม 2025 (1 ปี 2 เดือน)
+กรุงเทพมหานคร, ประเทศไทย
+ในฐานะสมาชิกทีม ผมได้ส่งมอบแอปพลิเคชันบนมือถือสำหรับการซื้อขาย
+Digital Token และสินทรัพย์ดิจิทัล พัฒนาระบบหลังบ้านสำหรับการเริ่มต้นใช้งานของลูกค้า
+และการจัดการคำสั่งซื้อ และเป็นผู้นำด้านแนวปฏิบัติด้านการทดสอบแบบ E2E
+
+Development Team - InnovestX Securities Company Limited
+พฤศจิกายน 2023 - พฤศจิกายน 2024 (1 ปี 1 เดือน)
+กรุงเทพมหานคร, ประเทศไทย
+การปรับปรุงทางเทคนิค: การพัฒนาฟังก์ชันการซื้อขาย (สถาปัตยกรรม Micro-Frontend) 
+การปรับเปลี่ยนระบบหลังบ้าน (Microservices) และ
+การดำเนินการย้ายระบบ IdP (Keycloak)
+
+  Page 1 of 3
+
+Development Team - Bank for Agriculture and Agricultural Cooperatives
+เมษายน 2021 - กันยายน 2023 (2 ปี 6 เดือน)
+กรุงเทพมหานคร, ประเทศไทย
+มีส่วนร่วมในการเขียนแอปพลิเคชัน BAAC Mobile ขึ้นใหม่โดยใช้ Flutter และ golang
+โดยเน้นที่ฟังก์ชันการทำงานหลักของธนาคารและปรับปรุงเสถียรภาพ/ประสิทธิภาพ
+ของแอปพลิเคชันเป็นหลัก
+
+Development Team - Kiatnakin Phatra Bank Public Company Limited
+มกราคม 2023 - มิถุนายน 2023 (6 เดือน)
+กรุงเทพมหานคร, ประเทศไทย
+พัฒนาระบบการวางแผนทางการเงินแบบครบวงจรเพื่อสร้าง
+แบบจำลองทางการเงินที่ปรับแต่งตามลูกค้า KKP รวมถึงการวางแผนเกษียณอายุ
+และการวางแผนการศึกษา
+
+Development Team - CGSI Securities - CGS International
+พฤศจิกายน 2021 - ตุลาคม 2022 (1 ปี)
+กรุงเทพมหานคร, ประเทศไทย
+ทำงานพัฒนาแพลตฟอร์มดำเนินการ Block Trade สำหรับ
+Single Stock Futures (SSF) ระบบนี้ทำให้โบรกเกอร์สามารถเป็นคู่สัญญาโดยตรง
+กับนักลงทุน ช่วยอำนวยความสะดวกในธุรกรรมอนุพันธ์ปริมาณมาก
+ร่วมกับ CGSI
+
+Development Team - The Stock Exchange of Thailand
+มกราคม 2021 - เมษายน 2021 (4 เดือน)
+กรุงเทพมหานคร, ประเทศไทย
+ร่วมมือกับตลาดหลักทรัพย์แห่งประเทศไทย (SET) ในการพัฒนาแพลตฟอร์ม
+สำคัญที่ออกแบบมาเพื่อเตรียมความพร้อมให้กับ SMEs และ Startups สู่เส้นทาง
+Initial Public Offering (IPO)
+
+ODDS-TEAM
+Technical Team Member - DBS Vickers Securities Thailand
+มีนาคม 2020 - พฤศจิกายน 2020 (9 เดือน)
+กรุงเทพมหานคร, ประเทศไทย
+พัฒนาแอปพลิเคชัน Investment Fund Assistant สำหรับลูกค้า DBS
+ทำให้สามารถทำธุรกรรมแบบ end-to-end รวมถึงคำสั่งซื้อ ขาย สับเปลี่ยน
+และ Dollar-Cost Averaging (DCA)
+
+ODDS-TEAM
+Technical Team Member -  SETTRADE .COM CO., LTD
+เมษายน 2019 - ตุลาคม 2019 (7 เดือน)
+กรุงเทพมหานคร, ประเทศไทย
+
+  Page 2 of 3
+
+
+พัฒนาระบบ SET Market Maker อำนวยความสะดวกในการซื้อขายแบบอัตโนมัติและ
+การให้สภาพคล่อง
+
+OfficeMate (Thai) Company Limited
+Junior Software Engineer
+มิถุนายน 2018 - เมษายน 2019 (11 เดือน)
+กรุงเทพมหานคร, ประเทศไทย
+ทำงานในตำแหน่ง Full-Stack แบบผสมผสาน โดยเน้นการออกแบบสถาปัตยกรรมและ
+การนำ pattern มาประยุกต์ใช้ในการพัฒนาทั้ง Backend และ Frontend และ
+สำรวจ tech stack ใหม่ๆ ให้กับบริษัท
+
+BUILK ONE GROUP
+Software Engineer Internship
+มิถุนายน 2017 - กรกฎาคม 2017 (2 เดือน)
+กรุงเทพมหานคร, ประเทศไทย
+นักพัฒนา Backend เน้นการพัฒนาระบบ CRM ของเรา
+
+National Electronics and Computer Technology Center (NECTEC)
+Software Developer Internship
+มิถุนายน 2016 - กรกฎาคม 2016 (2 เดือน)
+ปทุมธานี, ประเทศไทย
+นักพัฒนา Android ทำงานในทีมสร้างแอปพลิเคชันติดตามการจัดส่งพัสดุบนมือถือ
+
+Education
+Dhurakij Pundit University | DPU
+Bachelor of Engineering - BE, Computer Software Engineering
+
+  Page 3 of 3
