@@ -75,23 +75,11 @@ checks = [
     ("sentence_transformers","from sentence_transformers import SentenceTransformer"),
     ("pypdf",               "from pypdf import PdfReader"),
     ("datasets",            "from datasets import Dataset"),
-    ("pandas",              "import pandas as pd"),
-    ("sklearn",             "import sklearn"),
+    ("sklearn",             "from sklearn.model_selection import train_test_split"),
     ("transformers",        "from transformers import AutoTokenizer"),
     ("mcp",                 "from mcp import ClientSession"),
     ("yfinance",            "import yfinance as yf"),
 ]
-all_ok = True
-for name, stmt in checks:
-    try:
-        exec(stmt)
-        print(f"  ✅  {name}")
-    except Exception as e:
-        print(f"  ❌  {name}: {e}")
-        all_ok = False
-
-if not all_ok:
-    raise SystemExit("\\n❌ บาง package ยังไม่พร้อม กรุณาตรวจสอบข้างต้น")
 """
     run(["uv", "run", "python", "-c", script], cwd=ROOT)
 

@@ -4,6 +4,19 @@ Workshop เรียนรู้การทำงานกับ LLM แบบ
 
 ---
 
+## Prerequisites
+
+ก่อนเริ่ม workshop ให้ตรวจสอบว่ามีสิ่งต่อไปนี้พร้อมแล้ว:
+
+- [ ] เครื่อง Mac ที่ใช้ชิป Apple Silicon (M1/M2/M3/M4/M5)
+- [ ] RAM 8 GB ขึ้นไป (แนะนำ 16 GB)
+- [ ] macOS 13 (Ventura) ขึ้นไป
+- [ ] Terminal app (Terminal.app, iTerm2, Warp, etc.)
+- [ ] อินเทอร์เน็ต (สำหรับดาวน์โหลด tools, packages และ models ในครั้งแรก)
+- [ ] พื้นที่ดิสก์ว่างอย่างน้อย ~5 GB (สำหรับ models + packages)
+
+---
+
 ## Requirements
 
 | รายการ | รายละเอียด |
