@@ -103,10 +103,16 @@ def main():
     # คลาสนี้จะถูกเรียกใช้อัตโนมัติในลูป เพื่อให้เราเห็นตัวเลขขยับไปมาตอนเทรน
     class MetricsReporter:
         def on_train_loss_report(self, info):
-            print(f"🔄 Step {info['iteration']:03d} | Train Loss: {info['train_loss']:.4f} | ความเร็ว: {info['iterations_per_second']:.2f} iters/sec")
+            # แสดงผลทุกขั้นตอนการเทรน
+            step = info['iteration']           # ขั้นตอนที่เท่าไหร่
+            loss = info['train_loss']          # ค่าความผิดพลาด (ยิ่งน้อยยิ่งดี)
+            speed = info['iterations_per_second']  # ความเร็วในการเทรน
+            print(f"🔄 ขั้นตอนที่ {step:03d} | ความผิดพลาด: {loss:.4f} | ความเร็ว: {speed:.2f} ครั้ง/วินาที")
             
         def on_val_loss_report(self, info):
-            print(f"\n✨ ---> Validation Loss: {info['val_loss']:.4f} <---✨\n")
+            # แสดงผลทดสอบ (ข้อมูลที่โมเดลไม่เคยเห็น)
+            val_loss = info['val_loss']        # ค่าความผิดพลาดจากการทดสอบ
+            print(f"\n📝 ผลทดสอบ (Validation): ความผิดพลาด = {val_loss:.4f}\n")
             
     metrics = MetricsReporter()
     
