@@ -113,10 +113,39 @@ def main():
         model=model,
         tokenizer=tokenizer,
         data_dir="./data/dataset",
-        adapter_file="./adapters/adapters.safetensors",
-        phase_name="เรียนรู้ภาษาอีสาน (ข้อมูลใหญ่)",
+        adapter_file="./adapters/phase1/adapters.safetensors",
+        phase_name="รอบที่ 1: เรียนรู้ภาษาอีสาน (ข้อมูลใหญ่)",
         iters=100
     )
+    
+    # สำเนา adapter_config.json ไปยัง phase1/ (mlx_lm train() ไม่ได้สร้างให้อัตโนมัติ)
+    src_config = os.path.join(pretraining_adapter_path, "adapter_config.json")
+    dst_config = "./adapters/phase1/adapter_config.json"
+    if os.path.exists(src_config):
+        shutil.copy2(src_config, dst_config)
+    
+    print("✅ รอบที่ 1 สำเร็จ!")
+
+    # ================================================================
+    # โหลดโมเดลใหม่ + Adapter จากรอบที่ 1 เพื่อเริ่มรอบที่ 2
+    # ================================================================
+    print("\n🔄 กำลังโหลด Adapter จากรอบที่ 1 สำหรับรอบที่ 2...")
+    model, tokenizer = load(model_id)
+    model.freeze()
+    model = load_adapters(model, "./adapters/phase1")
+    
+    # ================================================================
+    # รอบที่ 2: เรียนรู้ข้อมูลบุญส่งเป็นภาษาอีสานจาก data/raw/ (ข้อมูลเล็ก)
+    # ================================================================
+    run_training_phase(
+        model=model,
+        tokenizer=tokenizer,
+        data_dir="./data/raw",
+        adapter_file="./adapters/adapters.safetensors",
+        phase_name="รอบที่ 2: เรียนรู้ข้อมูลบุญส่ง (ภาษาอีสาน)",
+        iters=60
+    )
+    print("✅ รอบที่ 2 สำเร็จ!")
 
     # ================================================================
     # สร้าง adapter_config.json ใน ./adapters/ (สำเนาจาก Pretraining)
@@ -131,7 +160,7 @@ def main():
         shutil.copy2(src_config, dst_config)
         print(f"📋 สร้าง adapter_config.json ใน {adapter_dir}/ เรียบร้อย")
     
-    print("\n🎉 เสร็จสิ้น Adapter อยู่ที่ ./adapters/adapters.safetensors")
+    print("\n🎉 เสร็จสิ้นทั้ง 2 รอบ! Adapter สุดท้ายอยู่ที่ ./adapters/adapters.safetensors")
 
 
 if __name__ == "__main__":
