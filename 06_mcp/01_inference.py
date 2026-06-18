@@ -24,20 +24,17 @@ from pathlib import Path
 from mlx_lm import load, generate
 from mlx_lm.sample_utils import make_sampler
 from mcp import ClientSession
-from mcp.client.stdio import stdio_client, StdioServerParameters
+from mcp.client.sse import sse_client
 
 model, tokenizer = load("typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit")
 sampler = make_sampler(temp=0.6, top_p=0.9)
 
-SERVER_PATH = str(Path(__file__).parent / "servers " / "set50.py")
+SERVER_URL = "http://localhost:8000/sse"
 
 
 async def ask(query: str) -> str:
-    # 1. สร้าง MCP Server Parameters
-    server = StdioServerParameters(command=sys.executable, args=[SERVER_PATH])
-
-    # 2. เชื่อมต่อกับ MCP Server
-    async with stdio_client(server) as (read, write):
+    # 1. เชื่อมต่อกับ MCP Server ผ่าน SSE
+    async with sse_client(SERVER_URL) as (read, write):
         async with ClientSession(read, write) as session:
             await session.initialize()
 

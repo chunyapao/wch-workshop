@@ -14,8 +14,16 @@ MCP Server ดึงข้อมูลหุ้นไทยและดัชน
   - ถ้าข้อมูลมีคุณภาพ → คำตอบแม่นยำ
   - ถ้าข้อมูลไม่มีคุณภาพ → คำตอบผิดเพี้ยน
 """
+import logging
 import yfinance as yf
 from mcp.server.fastmcp import FastMCP
+
+# ตั้งค่า Logging ให้แสดง INFO
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # 1. สร้าง MCP Server Instance
 mcp = FastMCP("set50")
@@ -30,6 +38,7 @@ SET50_STOCKS = [
 @mcp.tool()
 def get_set_index() -> str:
     """ดึงข้อมูลดัชนี SET (^SET) ราคาล่าสุดจาก Yahoo Finance"""
+    logger.info("กำลังดึงข้อมูลดัชนี SET...")
     # 3. ดึงข้อมูลดัชนี SET
     t = yf.Ticker("^SET")
     info = t.fast_info
@@ -44,10 +53,12 @@ def get_set_index() -> str:
     else:
         change = pct = 0.0
 
-    return (
+    result = (
         f"ดัชนี SET: {last:,.2f} "
         f"เปลี่ยนแปลง {change:+.2f} ({pct:+.2f}%)"
     )
+    logger.info(f"ผลลัพธ์: {result}")
+    return result
 
 
 @mcp.tool()
@@ -57,6 +68,7 @@ def get_stock(symbol: str) -> str:
     Args:
         symbol: ชื่อหุ้น เช่น PTT, KBANK, AOT
     """
+    logger.info(f"กำลังดึงข้อมูลหุ้น {symbol}...")
     # 5. ดึงข้อมูลหุ้นรายตัว
     t = yf.Ticker(f"{symbol.upper()}.BK")
     hist = t.history(period="2d")
@@ -73,15 +85,18 @@ def get_stock(symbol: str) -> str:
     else:
         change = pct = 0.0
 
-    return (
+    result = (
         f"{symbol.upper()}: {last:.2f} บาท "
         f"เปลี่ยนแปลง {change:+.2f} ({pct:+.2f}%)"
     )
+    logger.info(f"ผลลัพธ์: {result}")
+    return result
 
 
 @mcp.tool()
 def get_top_set50() -> str:
     """ดึงราคาหุ้น SET50 กลุ่มตัวอย่าง 10 ตัว (ดึงพร้อมกันเป็นชุด)"""
+    logger.info(f"กำลังดึงข้อมูลหุ้น SET50 จำนวน {len(SET50_STOCKS)} ตัว...")
     # 7. ดึงข้อมูลหุ้นหลายตัวพร้อมกัน
     tickers = [f"{s}.BK" for s in SET50_STOCKS]
     hist = yf.download(tickers, period="2d", auto_adjust=True, progress=False)
@@ -100,8 +115,12 @@ def get_top_set50() -> str:
             lines.append(f"{sym:8s}  {last:8.2f}  ({pct:+.2f}%)")
         except Exception:
             lines.append(f"{sym:8s}  ไม่มีข้อมูล")
-    return "\n".join(lines)
+    result = "\n".join(lines)
+    logger.info(f"ดึงข้อมูลสำเร็จ {len(lines)} ตัว")
+    return result
 
 
 if __name__ == "__main__":
-    mcp.run(transport="stdio")
+    print("🚀 MCP Server กำลังทำงานที่ http://localhost:8000")
+    print("กด Ctrl+C เพื่อหยุด Server")
+    mcp.run(transport="sse")
