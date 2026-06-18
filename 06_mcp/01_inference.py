@@ -33,13 +33,15 @@ SERVER_PATH = str(Path(__file__).parent / "servers " / "set50.py")
 
 
 async def ask(query: str) -> str:
+    # 1. สร้าง MCP Server Parameters
     server = StdioServerParameters(command=sys.executable, args=[SERVER_PATH])
 
+    # 2. เชื่อมต่อกับ MCP Server
     async with stdio_client(server) as (read, write):
         async with ClientSession(read, write) as session:
             await session.initialize()
 
-            # ดึงดัชนี SET และหุ้นกลุ่ม SET50
+            # 3. ดึงข้อมูลดัชนี SET และหุ้นกลุ่ม SET50
             set_idx = (await session.call_tool("get_set_index", arguments={})).content[0].text
             top50 = (await session.call_tool("get_top_set50", arguments={})).content[0].text
 
@@ -48,6 +50,7 @@ async def ask(query: str) -> str:
             print(top50)
             print("----------------------------\n")
 
+            # 4. สร้าง Prompt แบบ Chat Template
             messages = [
                 {"role": "system", "content": "คุณเป็นนักวิเคราะห์หุ้นมืออาชีพ ตอบสั้นๆ ตรงประเด็น อ้างอิงข้อมูลที่ให้มาเท่านั้น"},
                 {"role": "user", "content": f"""ข้อมูลตลาดหุ้นไทยวันนี้:
@@ -62,6 +65,7 @@ async def ask(query: str) -> str:
                 messages, tokenize=False, add_generation_prompt=True
             )
 
+            # 5. สร้างคำตอบด้วย LLM
             raw = generate(model, tokenizer, prompt=prompt, sampler=sampler, max_tokens=150)
             return raw.split("<|")[0].strip()
 

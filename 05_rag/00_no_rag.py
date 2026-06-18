@@ -17,6 +17,11 @@
   - ถ้าคำถามเกี่ยวกับข้อมูลเฉพาะ → คำตอบอาจผิด
   - ถ้าคำถามเกี่ยวกับความรู้ทั่วไป → คำตอบอาจถูกต้อง
 """
+from mlx_lm import load, generate
+from mlx_lm.sample_utils import make_sampler
+
+model, tokenizer = load("typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit")
+sampler = make_sampler(temp=0.6, top_p=0.9)
 
 
 def ask(query):
@@ -28,7 +33,7 @@ def ask(query):
 คำถาม: {query}
 คำตอบ:"""
 
-    return generate(model, tokenizer, prompt=prompt, sampler=sampler, max_tokens=500)
+    return generate(model, tokenizer, prompt=prompt, sampler=sampler, max_tokens=130)
 
 
 if __name__ == "__main__":

@@ -21,12 +21,12 @@ from sklearn.model_selection import train_test_split
 def prepare_isan_persona_data():
     dataset_name = "typhoon-ai/thai-dialect-isan-dataset"
     
-    # โหลด Dataset แบบ Memory-map (ไม่ดึงไฟล์เสียงขึ้นมาบน RAM จนกว่าจะเรียกใช้)
+    # 1. โหลด Dataset แบบ Memory-map (ไม่ดึงไฟล์เสียงขึ้นมาบน RAM จนกว่าจะเรียกใช้)
     dataset = load_dataset(dataset_name, split="train")
     
     formatted_data = []
     
-    # วนลูปอ่านข้อมูลทีละบรรทัดเพื่อเซฟ RAM
+    # 2. วนลูปอ่านข้อมูลทีละบรรทัดเพื่อเซฟ RAM
     for row in dataset:
         question = row.get("question", "")
         isan_spelling = row.get("isan_spelling", "")
@@ -55,15 +55,16 @@ def prepare_isan_persona_data():
     # แบ่งข้อมูลเป็น Train (90%) สำหรับสอน และ Valid (10%) สำหรับประเมินผล
     train_data, valid_data = train_test_split(formatted_data, test_size=0.1, random_state=42)
     
-    # สร้างโครงสร้างโฟลเดอร์สำหรับเก็บไฟล์
+    # 3. สร้างโครงสร้างโฟลเดอร์สำหรับเก็บไฟล์
     os.makedirs("data/raw", exist_ok=True)
     
-    # ฟังก์ชันบันทึกไฟล์เป็น JSONL
+    # 4. ฟังก์ชันบันทึกไฟล์เป็น JSONL
     def save_jsonl(data, filepath):
         with open(filepath, "w", encoding="utf-8") as f:
             for item in data:
                 f.write(json.dumps(item, ensure_ascii=False) + "\n")
                 
+    # 5. บันทึกข้อมูล train และ valid
     save_jsonl(train_data, "./data/raw/train.jsonl")
     save_jsonl(valid_data, "./data/raw/valid.jsonl")
     

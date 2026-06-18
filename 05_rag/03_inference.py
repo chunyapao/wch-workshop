@@ -18,6 +18,19 @@
   - ถ้าข้อมูลใน Vector Store ไม่มีคุณภาพ → คำตอบผิดเพี้ยน
   - RAG ช่วยลดโอกาส “น้ำท่วม” (hallucinate) เพราะมีข้อมูลอ้างอิง
 """
+from mlx_lm import load, generate
+from mlx_lm.sample_utils import make_sampler
+from pathlib import Path
+
+# Import ฟังก์ชันจาก 02_local_vector_store.py
+from importlib.util import spec_from_file_location, module_from_spec
+spec = spec_from_file_location("vector_store", Path(__file__).parent / "02_local_vector_store.py")
+vs = module_from_spec(spec)
+spec.loader.exec_module(vs)
+query_vs = vs.query
+
+model, tokenizer = load("typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit")
+sampler = make_sampler(temp=0.6, top_p=0.9)
 
 
 def ask(query):
@@ -38,7 +51,7 @@ def ask(query):
 คำตอบ:"""
 
     # 3. สร้างคำตอบด้วย MLX
-    return generate(model, tokenizer, prompt=prompt, sampler=sampler, max_tokens=500)
+    return generate(model, tokenizer, prompt=prompt, sampler=sampler, max_tokens=130)
 
 
 if __name__ == "__main__":

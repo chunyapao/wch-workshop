@@ -41,7 +41,7 @@ def main():
     adapter_path = "../01_pretraining/adapters"  # ใช้ adapter จาก pretraining ที่เทรนไว้
     data_dir = "./data/raw" # ชี้ไปที่โฟลเดอร์ข้อมูลดิบที่เราเตรียมไว้
     
-    # โหลดโมเดลพื้นฐาน (ไม่มี adapter) แล้วค่อยโหลด adapter จาก pretraining
+    # 2. โหลดโมเดลพื้นฐาน (ไม่มี adapter) แล้วค่อยโหลด adapter จาก pretraining
     model, tokenizer = load(model_id)
     model.freeze()
     

@@ -16,12 +16,11 @@
 import json
 import os
 
+# 1. อ่านไฟล์ข้อความดิบ
 with open("./dataset/ex-data-quality.txt", "r", encoding="utf-8") as f:
-    # แยกข้อความตามการขึ้นบรรทัดใหม่ (ย่อหน้า)
     paragraphs = [line.strip() for line in f if line.strip()]
-    #
 
-# 2. แบ่งข้อมูลเป็น Train (90%) และ Valid (10%)
+# 2. แบ่งข้อมูลเป็น Train (80%) และ Valid (20%)
 split_idx = int(len(paragraphs) * 0.8)
 train_data = paragraphs[:split_idx]
 valid_data = paragraphs[split_idx:]

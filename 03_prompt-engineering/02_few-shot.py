@@ -12,6 +12,12 @@
   - ตัวอย่าง越多: คำตอบแม่นยำขึ้น แต่ใช้ Token มากขึ้น
   - ตัวอย่างควรตรงกับคำถาม → คำตอบจะตรงรูปแบบ
 """
+from mlx_lm import load, generate
+
+base_model = "typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit"
+adapter_path = "../01_pretraining/adapters"
+
+model, tokenizer = load(base_model, adapter_path=adapter_path)
 
 prompt = """
 ตัวอย่างที่ 1:
@@ -30,8 +36,7 @@ prompt = """
 คำตอบ:
 """
 
-# ฟลักการทำ Zero-Shot Prompting ถามคำถามโดยตรง ไม่ต้องมีตัวอย่างประกอบ ให้โมเดลตอบจากความรู้ที่มีอยู่แล้ว
-
+# 1. เรียกใช้ generate() เพื่อสร้างคำตอบ
 response = generate(
     model,
     tokenizer,

@@ -17,9 +17,10 @@ MCP Server ดึงข้อมูลหุ้นไทยและดัชน
 import yfinance as yf
 from mcp.server.fastmcp import FastMCP
 
+# 1. สร้าง MCP Server Instance
 mcp = FastMCP("set50")
 
-# รายชื่อหุ้นใน SET50 (ตัวอย่าง)
+# 2. กำหนดรายชื่อหุ้นใน SET50 (ตัวอย่าง)
 SET50_STOCKS = [
     "PTT", "PTTEP", "PTTGC", "AOT", "ADVANC",
     "CPALL", "BDMS", "BBL", "KBANK", "SCB",
@@ -29,10 +30,12 @@ SET50_STOCKS = [
 @mcp.tool()
 def get_set_index() -> str:
     """ดึงข้อมูลดัชนี SET (^SET) ราคาล่าสุดจาก Yahoo Finance"""
+    # 3. ดึงข้อมูลดัชนี SET
     t = yf.Ticker("^SET")
     info = t.fast_info
     hist = t.history(period="2d")
 
+    # 4. คำนวณการเปลี่ยนแปลง
     last = info.last_price
     if len(hist) >= 2:
         prev = hist["Close"].iloc[-2]
@@ -54,12 +57,14 @@ def get_stock(symbol: str) -> str:
     Args:
         symbol: ชื่อหุ้น เช่น PTT, KBANK, AOT
     """
+    # 5. ดึงข้อมูลหุ้นรายตัว
     t = yf.Ticker(f"{symbol.upper()}.BK")
     hist = t.history(period="2d")
 
     if hist.empty:
         return f"ไม่พบข้อมูลหุ้น {symbol}"
 
+    # 6. คำนวณการเปลี่ยนแปลง
     last = hist["Close"].iloc[-1]
     if len(hist) >= 2:
         prev = hist["Close"].iloc[-2]
@@ -77,9 +82,11 @@ def get_stock(symbol: str) -> str:
 @mcp.tool()
 def get_top_set50() -> str:
     """ดึงราคาหุ้น SET50 กลุ่มตัวอย่าง 10 ตัว (ดึงพร้อมกันเป็นชุด)"""
+    # 7. ดึงข้อมูลหุ้นหลายตัวพร้อมกัน
     tickers = [f"{s}.BK" for s in SET50_STOCKS]
     hist = yf.download(tickers, period="2d", auto_adjust=True, progress=False)
 
+    # 8. แยกข้อมูลแต่ละหุ้น
     lines = []
     for sym in SET50_STOCKS:
         ticker = f"{sym}.BK"

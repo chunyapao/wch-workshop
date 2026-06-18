@@ -1,86 +1,67 @@
 """
-สคริปต์นี้แปลงข้อมูลดิบเป็นรูปแบบ Prompt-Completion สำหรับ Fine-tuning
+สคริปต์นี้แปลงข้อมูลจาก Dataset ภาษาอีสานเป็นรูปแบบ Prompt-Completion สำหรับ Fine-tuning
 
 📌 ค่า config ที่สำคัญ:
-  • thai_to_isan → พจนานุกรมแปลภาษาไทย → ภาษาอีสาน
-    - คำ越多: แปลได้ละเอียด แต่ต้องดูแลรักษายาก
-    - คำน้อย: แปลได้เฉพาะคำพื้นฐาน
+  • dataset_name = "typhoon-ai/thai-dialect-isan-dataset" → Dataset จาก Hugging Face
+    - มีข้อมูลภาษาไทย → ภาษาอีสานระดับประโยค
+    - ครอบคลุมกว่าพจนานุกรมแบบคำต่อคำ
+    - มีทั้งคำถามและคำตอบที่สมบูรณ์
 
   • task_type = random.choice(["th_to_is", "question"]) → สุ่มประเภทงาน
-    - th_to_is: สอนให้แปลภาษา
+    - th_to_is: สอนให้แปลภาษาไทย → ภาษาอีสาน
     - question: สอนให้ตอบคำถามเป็นภาษาอีสาน
     - การมีหลายประเภทช่วยให้โมเดล generalize ได้ดี
 
 💡 ผลต่อ Inference:
-  - ข้อมูล prompt/completion คือสิ่งที่โมเดลจะเรียนรู้
-  - ถ้า prompt เหมือนตอน inference → คำตอบแม่นยำ
-  - ถ้า prompt ต่างจากตอน inference → คำตอบอาจไม่ตรงความคาดหวัง
+  - ข้อมูลจาก Dataset มีคุณภาพสูงกว่าการแปลแบบคำต่อคำ
+  - โมเดลจะเรียนรู้รูปแบบการแปลระดับประโยค
+  - ถ้า Dataset มีคุณภาพสูง → คำตอบแม่นยำ
   - การมีหลายรูปแบบ (แปล/ตอบคำถาม) ช่วยให้โมเดลยืดหยุ่น
 """
 import os
 import json
 import random
 from datetime import datetime
+from datasets import load_dataset
 
 def convert_to_isan_finetuning():
-    source_files = [
-        "../01_pretraining/data/raw/train.jsonl",
-        "../01_pretraining/data/raw/valid.jsonl"
-    ]
+    dataset_name = "typhoon-ai/thai-dialect-isan-dataset"
     
-    all_texts = []
-    for file_path in source_files:
-        with open(file_path, "r", encoding="utf-8") as f:
-            for line in f:
-                data = json.loads(line)
-                if data.get("text", "").strip():
-                    all_texts.append(data["text"].strip())
-    
-    print(f"พบข้อมูลทั้งหมด {len(all_texts)} รายการ")
-    
-    # พจนานุกรมแปลพื้นฐาน
-    thai_to_isan = {
-        "ไม่": "บ่",
-        "เรา": "เฮา",
-        "คุณ": "เจ้า",
-        "ฉัน": "ข้อย",
-        "ทำ": "เฮ็ด",
-        "มาก": "หลาย",
-        "ใช่": "แม่น",
-        "ไม่ใช่": "บ่แม่น",
-        "ไม่มี": "บ่มี",
-        "ไม่ได้": "บ่ได้",
-        "จะ": "สิ",
-        "อะไร": "อี่หยัง",
-        "ทำไม": "เพราะอี่หยัง",
-        "อย่างไร": "จังใด๋",
-        "ที่ไหน": "อยู่ใส",
-        "ใคร": "ไผ",
-        "ครับ": "เด้อ",
-        "ค่ะ": "เด้อ",
-        "นะ": "เด้อ",
-    }
+    # 1. โหลด Dataset จาก Hugging Face (มีข้อมูลภาษาไทย → ภาษาอีสานระดับประโยค)
+    print(f"⏳ กำลังโหลด Dataset: {dataset_name}...")
+    dataset = load_dataset(dataset_name, split="train")
+    print(f"✅ โหลด Dataset สำเร็จ! มีข้อมูลทั้งหมด {len(dataset)} รายการ")
     
     formatted_data = []
     
-    for text in all_texts:
-        # แปลพื้นฐานโดยแทนที่คำ
-        isan_text = text
-        for thai_word, isan_word in thai_to_isan.items():
-            isan_text = isan_text.replace(thai_word, isan_word)
+    # 2. แปลงข้อมูลเป็นรูปแบบ Prompt-Completion
+    for row in dataset:
+        question = row.get("question", "")
+        isan_spelling = row.get("isan_spelling", "")
+        thai_spelling = row.get("thai_spelling", "")
         
+        # ข้ามข้อมูลที่มีคำตอบว่างเปล่า
+        if not isan_spelling or str(isan_spelling).strip() == "":
+            continue
+        
+        # สุ่มประเภทงาน
         task_type = random.choice(["th_to_is", "question"])
         
-        if task_type == "th_to_is":
-            prompt = f"จงแปลประโยคต่อไปนี้เป็นภาษาอีสาน: {text}"
-            completion = isan_text
-        else:
-            prompt = f"อธิบายเกี่ยวกับเรื่องนี้ในภาษาอีสาน: {text}"
-            completion = f"เรื่องนี้เกี่ยวกับ {isan_text}"
+        # รูปแบบที่ 1: สอนให้แปลภาษาไทย → ภาษาอีสาน
+        if task_type == "th_to_is" and thai_spelling and str(thai_spelling).strip() != "":
+            prompt = f"จงแปลประโยคต่อไปนี้เป็นภาษาอีสาน: {thai_spelling.strip()}"
+            completion = isan_spelling.strip()
+            formatted_data.append({"prompt": prompt, "completion": completion})
         
-        formatted_data.append({"prompt": prompt, "completion": completion})
+        # รูปแบบที่ 2: สอนให้ตอบคำถามเป็นภาษาอีสาน
+        elif question and str(question).strip() != "":
+            prompt = f"อธิบายเกี่ยวกับเรื่องนี้ในภาษาอีสาน: {question.strip()}"
+            completion = isan_spelling.strip()
+            formatted_data.append({"prompt": prompt, "completion": completion})
     
-    # โหลดข้อมูลเดิม
+    print(f"\n📊 สร้างข้อมูลสำหรับ Fine-tuning ได้ทั้งหมด {len(formatted_data)} รายการ")
+    
+    # 3. โหลดข้อมูลเดิมจาก Pretraining (ถ้ามี)
     target_dir = "./data/raw"
     
     existing_train = []
@@ -96,25 +77,29 @@ def convert_to_isan_finetuning():
                 else:
                     existing_valid = data
     
-    # แบ่งข้อมูลใหม่ (90% train, 10% valid)
+    print(f"📁 พบข้อมูลเดิมจาก Pretraining: Train {len(existing_train)} รายการ, Valid {len(existing_valid)} รายการ")
+    
+    # 4. แบ่งข้อมูลใหม่ (90% train, 10% valid)
     train_data = formatted_data[:int(len(formatted_data)*0.9)]
     valid_data = formatted_data[int(len(formatted_data)*0.9):]
     
-    # รวมกับข้อมูลเดิม
+    # 5. รวมกับข้อมูลเดิม
     final_train = existing_train + train_data
     final_valid = existing_valid + valid_data
     
-    # บันทึก
+    # 6. บันทึกข้อมูลลงไฟล์
     def save_jsonl(data, filepath):
         with open(filepath, "w", encoding="utf-8") as f:
             for item in data:
                 f.write(json.dumps(item, ensure_ascii=False) + "\n")
     
+    os.makedirs(target_dir, exist_ok=True)
     save_jsonl(final_train, os.path.join(target_dir, "train.jsonl"))
     save_jsonl(final_valid, os.path.join(target_dir, "valid.jsonl"))
     
-    print(f"บันทึกข้อมูล train: {len(final_train)} รายการ")
-    print(f"บันทึกข้อมูล valid: {len(final_valid)} รายการ")
+    print(f"\n✅ บันทึกข้อมูลเรียบร้อย!")
+    print(f"📚 ข้อมูล Train: {len(final_train)} รายการ")
+    print(f"📚 ข้อมูล Valid: {len(final_valid)} รายการ")
 
 if __name__ == "__main__":
     convert_to_isan_finetuning()

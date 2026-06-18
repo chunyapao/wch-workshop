@@ -21,21 +21,21 @@ import subprocess
 import sys
 from pathlib import Path
 
-# ใช้โมเดลพื้นฐานพร้อม adapter จาก 03_finetuning
+# 1. กำหนดค่าโมเดลและ Adapter
 model_id = "typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit"
 
 # ใช้ absolute path เพื่อให้ทำงานได้จากทุก directory
 script_dir = Path(__file__).parent.resolve()
 adapter_path = str(script_dir.parent / "03_finetuning" / "adapters")
 
-# 📌 mlx_lm.server → เริ่ม Server ให้บริการ API
-# ผล: ได้ Server ที่ให้บริการแบบ OpenAI-compatible
+# 2. สร้างคำสั่งสำหรับเริ่ม Server
 cmd = [
     sys.executable, "-m", "mlx_lm.server",
     "--model", model_id,
     "--adapter-path", adapter_path,
 ]
 
+# 3. เริ่ม Server
 print(f"Starting mlx_lm server...")
 print(f"Model: {model_id}")
 print(f"Adapter: {adapter_path}")

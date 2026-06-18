@@ -22,12 +22,13 @@ model, tokenizer = load(base_model, adapter_path=adapter_path)
 prompt = "บุญส่ง ศรีทอง ทำงานที่แรกปีอะไร?"
 
 # หรือรูปแบบที่มีโครงสร้างชัดเจน
+# 1. สร้าง Prompt สำหรับ Zero-Shot Prompting
 prompt = """
 คำถาม: บุญส่ง ศรีทอง ทำงานที่ odds  ทำงานที่แรกที่ไหน?
 คำตอบ:
 """
 
-# ฟลักการทำ Zero-Shot Prompting ถามคำถามโดยตรง ไม่ต้องมีตัวอย่างประกอบ ให้โมเดลตอบจากความรู้ที่มีอยู่แล้ว
+# 2. เรียกใช้ generate() เพื่อสร้างคำตอบ
 
 response = generate(
     model,
