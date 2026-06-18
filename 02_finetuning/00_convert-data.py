@@ -17,6 +17,12 @@
   - โมเดลจะเรียนรู้รูปแบบการแปลระดับประโยค
   - ถ้า Dataset มีคุณภาพสูง → คำตอบแม่นยำ
   - การมีหลายรูปแบบ (แปล/ตอบคำถาม) ช่วยให้โมเดลยืดหยุ่น
+
+🔧 การแบ่งข้อมูล:
+  • MAX_SAMPLES = 1000 → จำกัดจำนวนข้อมูลจาก Dataset (ป้องกันข้อมูลเยอะเกินไป)
+    - ถ้าค่าน้อย: เทรนเร็ว แต่อาจไม่ครอบคลุม
+    - ถ้าค่ามาก: เทรนช้า แต่ครอบคลุมมากขึ้น
+    - ปรับค่าได้ตามความเหมาะสม (เช่น 500, 1000, 2000)
 """
 import os
 import json
@@ -26,22 +32,30 @@ from datasets import load_dataset
 
 def convert_to_isan_finetuning():
     dataset_name = "typhoon-ai/thai-dialect-isan-dataset"
+    MAX_SAMPLES = 1000  # จำกัดจำนวนข้อมูลจาก Dataset (ปรับได้ตามต้องการ)
     
-    # 1. โหลด Dataset จาก Hugging Face (มีข้อมูลภาษาไทย → ภาษาอีสานระดับประโยค)
+    # 1. โหลด Dataset จาก Hugging Face แบบ Streaming (เร็วขึ้น ไม่ต้องโหลดทั้งหมด)
     print(f"⏳ กำลังโหลด Dataset: {dataset_name}...")
-    dataset = load_dataset(dataset_name, split="train")
-    print(f"✅ โหลด Dataset สำเร็จ! มีข้อมูลทั้งหมด {len(dataset)} รายการ")
+    dataset = load_dataset(dataset_name, split="train", streaming=True)
     
     formatted_data = []
+    skipped = 0
+    total = 0
     
-    # 2. แปลงข้อมูลเป็นรูปแบบ Prompt-Completion
+    # 2. แปลงข้อมูลเป็นรูปแบบ Prompt-Completion (จำกัดจำนวนด้วย MAX_SAMPLES)
+    print(f"⏳ กำลังแปลงข้อมูล... (จำกัด {MAX_SAMPLES} รายการ)")
     for row in dataset:
+        if total >= MAX_SAMPLES:
+            break
+        total += 1
+        
         question = row.get("question", "")
         isan_spelling = row.get("isan_spelling", "")
         thai_spelling = row.get("thai_spelling", "")
         
         # ข้ามข้อมูลที่มีคำตอบว่างเปล่า
         if not isan_spelling or str(isan_spelling).strip() == "":
+            skipped += 1
             continue
         
         # สุ่มประเภทงาน
@@ -58,8 +72,11 @@ def convert_to_isan_finetuning():
             prompt = f"อธิบายเกี่ยวกับเรื่องนี้ในภาษาอีสาน: {question.strip()}"
             completion = isan_spelling.strip()
             formatted_data.append({"prompt": prompt, "completion": completion})
+        else:
+            skipped += 1
     
-    print(f"\n📊 สร้างข้อมูลสำหรับ Fine-tuning ได้ทั้งหมด {len(formatted_data)} รายการ")
+    print(f"\n📊 ประมวลผลทั้งหมด {total} รายการ")
+    print(f"📊 สร้างข้อมูลสำหรับ Fine-tuning ได้ทั้งหมด {len(formatted_data)} รายการ (ข้าม {skipped} รายการ)")
     
     # 3. โหลดข้อมูลเดิมจาก Pretraining (ถ้ามี)
     target_dir = "./data/raw"
