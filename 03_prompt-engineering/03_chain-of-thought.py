@@ -2,7 +2,7 @@
 สคริปต์นี้แสดงการใช้งาน Chain-of-Thought (CoT) Prompting (คิดเป็นขั้นตอน)
 
 📌 ค่า config ที่สำคัญ:
-  • max_tokens=128 → จำกัดคำตอบ 128 Token
+  • max_tokens=130 → จำกัดคำตอบ 130 Token
     - ถ้าค่าน้อย: คำตอบสั้น อาจไม่ครบถ้วน
     - ถ้าค่ามาก: คำตอบยาว แต่ใช้เวลานาน
 
@@ -66,7 +66,7 @@ response = generate(
     model,
     tokenizer,
     prompt=prompt,
-    max_tokens=128,
+    max_tokens=130,
     verbose=True
 )
 

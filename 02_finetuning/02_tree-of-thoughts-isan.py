@@ -2,7 +2,7 @@
 สคริปต์นี้แสดงการใช้งาน Tree of Thoughts (ToT) ภาษาอีสาน
 
 📌 ค่า config ที่สำคัญ:
-  • max_tokens=256 → จำกัดคำตอบแต่ละเส้นทาง 256 Token
+  • max_tokens=130 → จำกัดคำตอบแต่ละเส้นทาง 130 Token
     - ถ้าค่าน้อย: คำตอบสั้น อาจไม่ครบถ้วน
     - ถ้าค่ามาก: คำตอบยาว แต่ใช้เวลานาน
     - 256 เหมาะกับการวิเคราะห์ที่ต้องให้เหตุผล
@@ -61,7 +61,7 @@ response_1 = generate(
     model,
     tokenizer,
     prompt=branch_1_prompt,
-    max_tokens=256,
+    max_tokens=130,
     verbose=False
 )
 
@@ -89,7 +89,7 @@ response_2 = generate(
     model,
     tokenizer,
     prompt=branch_2_prompt,
-    max_tokens=256,
+    max_tokens=130,
     verbose=False
 )
 
@@ -118,7 +118,7 @@ response_3 = generate(
     model,
     tokenizer,
     prompt=branch_3_prompt,
-    max_tokens=256,
+    max_tokens=130,
     verbose=False
 )
 
@@ -161,7 +161,7 @@ evaluation_response = generate(
     model,
     tokenizer,
     prompt=evaluation_prompt,
-    max_tokens=512,
+    max_tokens=130,
     verbose=False
 )
 
@@ -191,7 +191,7 @@ final_response = generate(
     model,
     tokenizer,
     prompt=final_prompt,
-    max_tokens=128,
+    max_tokens=130,
     verbose=False
 )
 

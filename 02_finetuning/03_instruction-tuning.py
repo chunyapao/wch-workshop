@@ -31,6 +31,6 @@ response = generate(
     model,
     tokenizer,
     prompt=prompt_text,
-    max_tokens=128,
+    max_tokens=130,
     verbose=True
 )

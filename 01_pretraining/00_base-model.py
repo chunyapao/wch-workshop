@@ -2,7 +2,7 @@
 สคริปต์นี้แสดงการใช้งาน Base Model (ก่อนเทรน) เพื่อตอบคำถาม
 
 📌 ค่า config ที่สำคัญ:
-  • max_tokens=128 → จำกัดคำตอบ 128 Token
+  • max_tokens=130 → จำกัดคำตอบ 130 Token
     - ถ้าค่าน้อย: คำตอบสั้น อาจไม่ครบถ้วน
     - ถ้าค่ามาก: คำตอบยาว แต่อาจพูดน้ำท่วม (hallucinate)
     - 128 Token ≈ 60-80 คำภาษาไทย เหมาะสำหรับการตอบคำถามสั้นๆ
@@ -23,11 +23,11 @@ model, tokenizer = load("typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit")
 prompt = "บุญส่ง ศรีทอง ทำงานที่แรกปีอะไร?"
 
 # 📌 generate() = สร้างคำตอบจากโมเดล
-# max_tokens=128 → คำตอบยาวสุด 128 Token (≈60-80 คำ)
+# max_tokens=130 → คำตอบยาวสุด 130 Token (≈60-80 คำ)
 response = generate(
     model,
     tokenizer,
     prompt=prompt,
-    max_tokens=128,
+    max_tokens=130,
     verbose=True
 )
