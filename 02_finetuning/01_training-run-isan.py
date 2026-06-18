@@ -115,7 +115,7 @@ def main():
         data_dir="./data/dataset",
         adapter_file="./adapters/phase1/adapters.safetensors",
         phase_name="รอบที่ 1: เรียนรู้ภาษาอีสาน (ข้อมูลใหญ่)",
-        iters=100
+        iters=200
     )
     
     # สำเนา adapter_config.json ไปยัง phase1/ (mlx_lm train() ไม่ได้สร้างให้อัตโนมัติ)
