@@ -14,7 +14,7 @@
   - ถ้า Vector ไม่แม่นยำ → คำตอบผิดเพี้ยน
 """
 import chromadb
-import chromadb.embedding_functions
+from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from pathlib import Path
 
 # Import ฟังก์ชันอ่าน PDF จาก 01_parse_data.py
@@ -28,7 +28,7 @@ read_pdf = parse_data.read_pdf
 client = chromadb.PersistentClient(path="./tor_db")
 
 # 2. สร้าง Embedding Function
-emb_fn = chromadb.embedding_functions.SentenceTransformerEmbeddingFunction(
+emb_fn = SentenceTransformerEmbeddingFunction(
     model_name="all-MiniLM-L6-v2"
 )
 
