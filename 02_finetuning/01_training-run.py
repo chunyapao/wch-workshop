@@ -26,6 +26,14 @@
   - max_seq_length → ความยาวบริบทที่โมเดล “จำ” ได้ตอน inference
   - prompt/completion format → โมเดลเรียนรู้รูปแบบเฉพาะ ถ้าตอน inference ใช้รูปแบบเดียวกัน → คำตอบแม่นยำ
 """
+import os
+import types
+import mlx.optimizers as optim
+import mlx.utils
+from mlx_lm import load
+from mlx_lm.tuner import TrainingArgs, train
+from mlx_lm.tuner.utils import load_adapters
+from mlx_lm.tuner.datasets import load_dataset, CacheDataset
 
 def main():
     # 1. ระบุชื่อโมเดล 4-bit และตำแหน่งข้อมูล

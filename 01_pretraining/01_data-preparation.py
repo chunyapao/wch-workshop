@@ -11,8 +11,11 @@
   - ข้อมูล Train คือสิ่งที่โมเดล "จำ" ได้
   - ถ้าข้อมูลมีคุณภาพสูง → คำตอบแม่นยำ
   - ถ้าข้อมูลมีเสียงรบกวน → คำตอบผิดเพี้ยน
-  - การแบ่งข้อมูลที่ดีช่วยให้โมเดลไม่ "จำเกิน" (overfit)
+  - การแบ่งข้อมูลที่ดีช่วยให้โมเดลไม่ “จำเกิน” (overfit)
 """
+import json
+import os
+
 with open("./dataset/ex-data-quality.txt", "r", encoding="utf-8") as f:
     # แยกข้อความตามการขึ้นบรรทัดใหม่ (ย่อหน้า)
     paragraphs = [line.strip() for line in f if line.strip()]

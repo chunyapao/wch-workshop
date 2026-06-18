@@ -28,6 +28,12 @@
   - rank/scale/dropout ที่เทรนไว้ ต้องตรงกับตอนโหลด adapter
   - ถ้าไม่ตรง → คำตอบจะผิดเพี้ยน หรือโหลดไม่ได้เลย
 """
+import json
+import os
+import mlx.core as mx
+from mlx_lm import load
+from mlx_lm.tuner import linear_to_lora_layers
+from mlx.utils import tree_flatten
 
 def initialize_model():
     model_id = "typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit"

@@ -30,6 +30,14 @@
   - max_seq_length → ความยาวบริบทที่โมเดล “จำ” ได้ตอน inference
   - learning_rate ที่เหมาะสม → คำตอบมีคุณภาพ ไม่ “เพี้ยน”
 """
+import os
+import types
+import mlx.optimizers as optim
+from mlx.utils import tree_flatten
+from mlx_lm import load
+from mlx_lm.tuner import TrainingArgs, linear_to_lora_layers, train
+from mlx_lm.tuner.datasets import load_dataset
+from mlx_lm.tuner.trainer import CacheDataset
 
 def main():
     model_id = "typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit"
