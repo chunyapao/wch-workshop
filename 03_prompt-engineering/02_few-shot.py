@@ -1,9 +1,17 @@
-from mlx_lm import load, generate
+"""
+สคริปต์นี้แสดงการใช้งาน Few-Shot Prompting (มีตัวอย่างประกอบ)
 
-base_model = "typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit"
-adapter_path = "../01_pretraining/adapters"
+📌 ค่า config ที่สำคัญ:
+  • max_tokens=128 → จำกัดคำตอบ 128 Token
+    - ถ้าค่าน้อย: คำตอบสั้น อาจไม่ครบถ้วน
+    - ถ้าค่ามาก: คำตอบยาว แต่ใช้เวลานาน
 
-model, tokenizer = load(base_model, adapter_path=adapter_path)
+💡 ผลต่อ Inference:
+  - Few-Shot = มีตัวอย่างประกอบก่อนถามคำถาม
+  - โมเดลเรียนรู้รูปแบบจากตัวอย่าง แล้วตอบคำถามตามรูปแบบนั้น
+  - ตัวอย่าง越多: คำตอบแม่นยำขึ้น แต่ใช้ Token มากขึ้น
+  - ตัวอย่างควรตรงกับคำถาม → คำตอบจะตรงรูปแบบ
+"""
 
 prompt = """
 ตัวอย่างที่ 1:

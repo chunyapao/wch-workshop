@@ -1,7 +1,18 @@
-import json
-import os
+"""
+สคริปต์นี้แบ่งข้อมูลดิบเป็น Train/Valid สำหรับ Pretraining
 
-# 1. อ่านไฟล์ข้อความดิบ
+📌 ค่า config ที่สำคัญ:
+  • split_idx = int(len(paragraphs) * 0.8) → แบ่ง 80% Train, 20% Valid
+    - ถ้า Train มาก: โมเดลเรียนรู้ข้อมูลได้เยอะ แต่ Validate น้อย
+    - ถ้า Valid มาก: ประเมินผลแม่นยำ แต่ข้อมูลสอนน้อย
+    - 80/20 เป็นค่ามาตรฐานที่ใช้กันทั่วไป
+
+💡 ผลต่อ Inference:
+  - ข้อมูล Train คือสิ่งที่โมเดล "จำ" ได้
+  - ถ้าข้อมูลมีคุณภาพสูง → คำตอบแม่นยำ
+  - ถ้าข้อมูลมีเสียงรบกวน → คำตอบผิดเพี้ยน
+  - การแบ่งข้อมูลที่ดีช่วยให้โมเดลไม่ "จำเกิน" (overfit)
+"""
 with open("./dataset/ex-data-quality.txt", "r", encoding="utf-8") as f:
     # แยกข้อความตามการขึ้นบรรทัดใหม่ (ย่อหน้า)
     paragraphs = [line.strip() for line in f if line.strip()]

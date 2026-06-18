@@ -1,13 +1,18 @@
-import importlib.util
+"""
+สคริปต์นี้สร้าง Vector Store สำหรับ RAG
 
-import chromadb
-from chromadb.utils import embedding_functions
+📌 ค่า config ที่สำคัญ:
+  • model_name="all-MiniLM-L6-v2" → โมเดลแปลงข้อความเป็น Vector
+    - ถ้าค่ามาก: Vector แม่นยำ แต่ใช้ RAM มาก
+    - ค่าน้อย: Vector ไม่แม่นยำ แต่ใช้ RAM น้อย
+    - all-MiniLM-L6-v2 เป็นค่ามาตรฐานที่สมดุล
 
-# Import 01_parse_data.py
-_spec = importlib.util.spec_from_file_location("parse_data", "01_parse_data.py")
-_pd = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(_pd)
-read_pdf = _pd.read_pdf
+💡 ผลต่อ Inference:
+  - Vector Store เก็บข้อความที่แปลงเป็น Vector
+  - ตอนถามคำถาม → ข้อความถูกแปลงเป็น Vector → ค้นหาข้อความที่ใกล้เคียง
+  - ถ้า Vector แม่นยำ → คำตอบแม่นยำ
+  - ถ้า Vector ไม่แม่นยำ → คำตอบผิดเพี้ยน
+"""
 
 # Initialize ChromaDB
 client = chromadb.PersistentClient(path="./tor_db")

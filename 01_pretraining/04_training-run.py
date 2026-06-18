@@ -1,11 +1,35 @@
-import os
-import types
-import mlx.optimizers as optim
-from mlx.utils import tree_flatten
-from mlx_lm import load
-from mlx_lm.tuner import TrainingArgs, linear_to_lora_layers, train
-from mlx_lm.tuner.datasets import load_dataset
-from mlx_lm.tuner.trainer import CacheDataset
+"""
+สคริปต์นี้รันการ Pretraining โมเดลด้วย LoRA
+
+📌 ค่า config ที่สำคัญ:
+  • iters=100 → จำนวนรอบการเทรน
+    - ถ้าค่าน้อย: เรียนรู้ไม่พอ คำตอบยังไม่ดี
+    - ถ้าค่ามาก: เรียนรู้เยอะ แต่อาจ overfit (จำข้อมูลเทรนได้แต่ตอบคำถามใหม่ไม่ได้)
+    - 100 steps เหมาะกับข้อมูลน้อยๆ
+
+  • batch_size=1 → จำนวนตัวอย่างที่ประมวลผลพร้อมกัน
+    - ถ้าค่ามาก: เรียนรู้เร็ว ใช้ RAM มาก
+    - ถ้าค่าน้อย: เรียนรู้ช้า แต่ใช้ RAM น้อย
+    - 1 เหมาะกับ M1 8GB
+
+  • max_seq_length=130 → ความยาวสูงสุดของข้อความที่โมเดลเห็นตอนเทรน
+    - ต้องมากกว่า BLOCK_SIZE (128) เล็กน้อย
+    - ถ้าตอน inference ป้อนข้อความยาวกว่านี้ → โมเดลจะ “ลืม” ส่วนที่เกิน
+
+  • learning_rate=3e-5 → อัตราการเรียนรู้
+    - ถ้าค่ามาก: เรียนรู้เร็ว แต่อาจ “ข้าม” จุดที่ดีที่สุด
+    - ค่าน้อย: เรียนรู้ช้า แต่แม่นยำกว่า
+    - 3e-5 (0.00003) เป็นค่ามาตรฐานสำหรับ LoRA
+
+  • steps_per_eval=10 → ทดสอบกับ Validation Data ทุกๆ 10 steps
+    - ค่ามาก: ประเมินผลน้อยครั้ง → ไม่รู้ว่า overfit เมื่อไหร่
+    - ค่าน้อย: ประเมินผลบ่อย → ใช้เวลานาน
+
+💡 ผลต่อ Inference:
+  - iters ที่เหมาะสม → คำตอบแม่นยำ ไม่ overfit
+  - max_seq_length → ความยาวบริบทที่โมเดล “จำ” ได้ตอน inference
+  - learning_rate ที่เหมาะสม → คำตอบมีคุณภาพ ไม่ “เพี้ยน”
+"""
 
 def main():
     model_id = "typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit"

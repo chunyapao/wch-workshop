@@ -1,11 +1,31 @@
-import os
-import types
-import mlx.optimizers as optim
-import mlx.utils
-from mlx_lm import load
-from mlx_lm.tuner import TrainingArgs, train
-from mlx_lm.tuner.utils import load_adapters
-from mlx_lm.tuner.datasets import load_dataset, CacheDataset
+"""
+สคริปต์นี้รันการ Fine-tuning โมเดลด้วย Adapter จาก Pretraining
+
+📌 ค่า config ที่สำคัญ:
+  • adapter_path = "../01_pretraining/adapters" → โฟลเดอร์ที่เก็บ Adapter จาก Pretraining
+    - ต้องมีไฟล์ adapters.safetensors และ adapter_config.json
+    - ถ้าไม่มี → โหลดไม่ได้ หรือคำตอบไม่เปลี่ยนจาก Base Model
+
+  • max_seq_length=512 → ความยาวสูงสุดของข้อความที่โมเดลเห็นตอนเทรน
+    - ถ้าค่ามาก: โมเดลเห็นบริบทยาว แต่ใช้ RAM มาก
+    - ค่าน้อย: โมเดลเห็นบริบทสั้น แต่ใช้ RAM น้อย
+    - 512 เหมาะกับข้อความยาวๆ เช่น บทสนทนา
+
+  • learning_rate=1e-4 → อัตราการเรียนรู้
+    - ถ้าค่ามาก: เรียนรู้เร็ว แต่อาจ “ข้าม” จุดที่ดีที่สุด
+    - ค่าน้อย: เรียนรู้ช้า แต่แม่นยำกว่า
+    - 1e-4 (0.0001) เป็นค่ามาตรฐานสำหรับ Fine-tuning
+
+  • prompt_feature="prompt", completion_feature="completion"
+    - บอกโมเดลว่า “คำถาม” อยู่ที่ไหน และ “คำตอบ” อยู่ที่ไหน
+    - โมเดลจะเรียนรู้เฉพาะส่วน completion (ไม่เรียนรู้ส่วน prompt)
+    - สำคัญมากสำหรับ Instruction Tuning
+
+💡 ผลต่อ Inference:
+  - Adapter ที่เทรนแล้ว → คำตอบเปลี่ยนไป (มีความรู้ใหม่)
+  - max_seq_length → ความยาวบริบทที่โมเดล “จำ” ได้ตอน inference
+  - prompt/completion format → โมเดลเรียนรู้รูปแบบเฉพาะ ถ้าตอน inference ใช้รูปแบบเดียวกัน → คำตอบแม่นยำ
+"""
 
 def main():
     # 1. ระบุชื่อโมเดล 4-bit และตำแหน่งข้อมูล

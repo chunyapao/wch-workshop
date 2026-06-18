@@ -1,3 +1,18 @@
+"""
+สคริปต์นี้โหลด Dataset ภาษาอีสานจาก Hugging Face และเตรียมข้อมูลสำหรับ Fine-tuning
+
+📌 ค่า config ที่สำคัญ:
+  • test_size=0.1 → แบ่ง 10% สำหรับ Validation
+    - ถ้าค่ามาก: ข้อมูลเทรนน้อย แต่ Validate แม่นยำ
+    - ค่าน้อย: ข้อมูลเทรนเยอะ แต่ Validate น้อย
+    - 10% เป็นค่ามาตรฐาน
+
+💡 ผลต่อ Inference:
+  - ข้อมูลจาก Dataset คือสิ่งที่โมเดลจะเรียนรู้
+  - ถ้า Dataset มีคุณภาพสูง → คำตอบแม่นยำ
+  - ถ้า Dataset มีเสียงรบกวน → คำตอบผิดเพี้ยน
+  - การแบ่งข้อมูลที่ดีช่วยให้โมเดลไม่ “จำเกิน” (overfit)
+"""
 import os
 import json
 from datasets import load_dataset
