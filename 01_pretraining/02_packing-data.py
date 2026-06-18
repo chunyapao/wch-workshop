@@ -2,17 +2,17 @@
 สคริปต์นี้ “จัดแพ็ก” ข้อมูลดิบให้เป็นก้อนๆ ขนาดเท่ากัน เพื่อเตรียมเทรน
 
 📌 ค่า config ที่สำคัญ:
-  • BLOCK_SIZE = 64 → ขนาดของแต่ละก้อนข้อมูล (Token)
+  • BLOCK_SIZE = 128 → ขนาดของแต่ละก้อนข้อมูล (Token)
     - ถ้าค่าน้อย: ข้อมูลถูกหั่นละเอียด โมเดลเห็นบริบทสั้น
     - ถ้าค่ามาก: ข้อมูลแต่ละก้อนยาว โมเดลเห็นบริบทยาว แต่ใช้ RAM มาก
-    - 64 Token ≈ 30-40 คำ เหมาะกับข้อมูลน้อย
+    - 128 Token ≈ 60-80 คำ เหมาะกับข้อมูลภาษาไทย
 
   • add_special_tokens=False → ไม่เติม <bos>/<eos> อัตโนมัติ
     - เราเติมเองเพื่อให้ควบคุมได้ว่าก้อนไหนเริ่ม-จบ
 
 💡 ผลต่อ Inference:
   - BLOCK_SIZE = max_seq_length ตอนเทรน = ความยาวบริบทที่โมเดล “จำ” ได้
-  - ถ้าตอน inference ป้อนข้อความยาวกว่า 64 Token → โมเดลจะ “ลืม” ส่วนที่เกิน
+  - ถ้าตอน inference ป้อนข้อความยาวกว่า 128 Token → โมเดลจะ “ลืม” ส่วนที่เกิน
   - bos/eos ช่วยบอกโมเดลว่า “ข้อความเริ่มที่นี่” และ “จบที่นี่”
 """
 import json
@@ -24,7 +24,7 @@ from transformers import AutoTokenizer
 # โหลดค่าจากไฟล์ .env (ที่ root ของโปรเจกต์)
 env_path = Path(__file__).parent.parent / ".env"
 load_dotenv(env_path)
-BLOCK_SIZE = int(os.getenv("BLOCK_SIZE", "64"))
+BLOCK_SIZE = int(os.getenv("BLOCK_SIZE", "128"))
 
 
 def pack_data(input_file, output_file, tokenizer_name, block_size=512):

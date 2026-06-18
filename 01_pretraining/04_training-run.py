@@ -2,18 +2,18 @@
 สคริปต์นี้รันการ Pretraining โมเดลด้วย LoRA
 
 📌 ค่า config ที่สำคัญ:
-  • iters=100 → จำนวนรอบการเทรน
+  • iters=500 → จำนวนรอบการเทรน (อ่านจาก .env)
     - ถ้าค่าน้อย: เรียนรู้ไม่พอ คำตอบยังไม่ดี
     - ถ้าค่ามาก: เรียนรู้เยอะ แต่อาจ overfit (จำข้อมูลเทรนได้แต่ตอบคำถามใหม่ไม่ได้)
-    - 100 steps เหมาะกับข้อมูลน้อยๆ
+    - 500 steps เหมาะกับข้อมูลน้อยๆ
 
-  • batch_size=1 → จำนวนตัวอย่างที่ประมวลผลพร้อมกัน
+  • batch_size=1 → จำนวนตัวอย่างที่ประมวลผลพร้อมกัน (อ่านจาก .env)
     - ถ้าค่ามาก: เรียนรู้เร็ว ใช้ RAM มาก
     - ถ้าค่าน้อย: เรียนรู้ช้า แต่ใช้ RAM น้อย
     - 1 เหมาะกับ M1 8GB
 
-  • max_seq_length=66 → ความยาวสูงสุดของข้อความที่โมเดลเห็นตอนเทรน
-    - ต้องมากกว่า BLOCK_SIZE (64) เล็กน้อย
+  • max_seq_length=130 → ความยาวสูงสุดของข้อความที่โมเดลเห็นตอนเทรน
+    - ต้องมากกว่า BLOCK_SIZE (128) เล็กน้อย
     - ถ้าตอน inference ป้อนข้อความยาวกว่านี้ → โมเดลจะ “ลืม” ส่วนที่เกิน
 
   • learning_rate=3e-5 → อัตราการเรียนรู้
@@ -49,6 +49,7 @@ load_dotenv(env_path)
 MAX_SEQ_LENGTH = int(os.getenv("MAX_SEQ_LENGTH", "130"))
 TRAINING_ITERS = int(os.getenv("TRAINING_ITERS", "500"))
 LEARNING_RATE = float(os.getenv("LEARNING_RATE", "3e-5"))
+BATCH_SIZE = int(os.getenv("BATCH_SIZE", "1"))
 
 # การตั้งค่า LoRA
 LORA_NUM_LAYERS = int(os.getenv("LORA_NUM_LAYERS", "8"))
@@ -112,11 +113,12 @@ def main():
     print(f"   - MAX_SEQ_LENGTH: {MAX_SEQ_LENGTH}")
     print(f"   - TRAINING_ITERS: {TRAINING_ITERS}")
     print(f"   - LEARNING_RATE: {LEARNING_RATE}")
+    print(f"   - BATCH_SIZE: {BATCH_SIZE}")
     
     training_args = TrainingArgs(
         adapter_file="adapters/adapters.safetensors", # ปลายทางเซฟโมเดล
         iters=TRAINING_ITERS,     # จำนวนรอบการเทรน (จาก .env)
-        batch_size=2,             # 1 สำหรับ RAM 8GB และข้อมูลน้อย
+        batch_size=BATCH_SIZE,        # จาก .env (1 สำหรับ RAM 8GB)
         max_seq_length=MAX_SEQ_LENGTH,  # ความยาวสูงสุด (จาก .env)
         steps_per_eval=10,        # ทดสอบกับ Validation Data ทุกๆ 10 Steps
         steps_per_save=100,       # เซฟ Checkpoint ทุกๆ 100 Steps
