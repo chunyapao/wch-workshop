@@ -35,6 +35,8 @@
   - prompt/completion format → โมเดลเรียนรู้รูปแบบเฉพาะ ถ้าตอน inference ใช้รูปแบบเดียวกัน → คำตอบแม่นยำ
 """
 import os
+import json
+import shutil
 import types
 import mlx.optimizers as optim
 import mlx.utils
@@ -59,7 +61,7 @@ def run_training_phase(model, tokenizer, data_dir, adapter_file, phase_name, ite
         completion_feature="completion"
     )
     
-    train_set, valid_set, test_set = load_dataset(args, tokenizer)
+    train_set, valid_set, _ = load_dataset(args, tokenizer)
     
     training_args = TrainingArgs(
         adapter_file=adapter_file,
@@ -111,34 +113,25 @@ def main():
         model=model,
         tokenizer=tokenizer,
         data_dir="./data/dataset",
-        adapter_file="./adapters/phase1/adapters.safetensors",
-        phase_name="รอบที่ 1: เรียนรู้ภาษาอีสาน (ข้อมูลใหญ่)",
+        adapter_file="./adapters/adapters.safetensors",
+        phase_name="เรียนรู้ภาษาอีสาน (ข้อมูลใหญ่)",
         iters=100
     )
-    print("✅ รอบที่ 1 สำเร็จ!")
+
+    # ================================================================
+    # สร้าง adapter_config.json ใน ./adapters/ (สำเนาจาก Pretraining)
+    # ================================================================
+    adapter_dir = "./adapters"
+    os.makedirs(adapter_dir, exist_ok=True)
     
-    # # ================================================================
-    # # โหลด Adapter ใหม่จากรอบที่ 1 เพื่อเริ่มรอบที่ 2
-    # # ================================================================
-    # model, tokenizer = load(model_id)
-    # model.freeze()
-    # model = load_adapters(model, "./adapters/phase1")
+    src_config = os.path.join(pretraining_adapter_path, "adapter_config.json")
+    dst_config = os.path.join(adapter_dir, "adapter_config.json")
     
-    # # ================================================================
-    # # รอบที่ 2: เรียนรู้ข้อมูลบุญส่งเป็นภาษาอีสานจาก data/raw/ (ข้อมูลเล็ก)
-    # # ================================================================
-    # run_training_phase(
-    #     model=model,
-    #     tokenizer=tokenizer,
-    #     data_dir="./data/raw",
-    #     adapter_file="./adapters/adapters.safetensors",
-    #     phase_name="รอบที่ 2: เรียนรู้ข้อมูลบุญส่ง (ภาษาอีสาน)",
-    #     iters=30,
-    #     learning_rate=5e-5
-    # )
-    # print("✅ รอบที่ 2 สำเร็จ!")
+    if os.path.exists(src_config) and not os.path.exists(dst_config):
+        shutil.copy2(src_config, dst_config)
+        print(f"📋 สร้าง adapter_config.json ใน {adapter_dir}/ เรียบร้อย")
     
-    # print("\n🎉 เสร็จสิ้นทั้ง 2 รอบ! Adapter สุดท้ายอยู่ที่ ./adapters/adapters.safetensors")
+    print("\n🎉 เสร็จสิ้น Adapter อยู่ที่ ./adapters/adapters.safetensors")
 
 
 if __name__ == "__main__":

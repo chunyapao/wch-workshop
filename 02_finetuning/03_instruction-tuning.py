@@ -16,7 +16,7 @@ from mlx_lm import load, generate
 from mlx_lm.sample_utils import make_sampler
 
 base_model = "typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit"
-adapter_path = "./adapters"
+adapter_path = "./adapters/phase1/adapters.safetensor"
 
 model, tokenizer = load(base_model, adapter_path=adapter_path)
 
