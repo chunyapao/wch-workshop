@@ -10,7 +10,7 @@
 |---|---|
 | `00_base-model.py` | ทดสอบโมเดลพื้นฐาน (ก่อน pretrain) |
 | `01_data-preparation.py` | เตรียมข้อมูลดิบจาก dataset/ |
-| `02_packaging-data.py` | แพ็คข้อมูลเป็น block ขนาด 128 tokens |
+| `02_packaging-data.py` | แพ็คข้อมูลเป็น block ขนาด 64 tokens |
 | `03_model-initialization.py` | ตรวจสอบโมเดลพื้นฐาน |
 | `04_training-run.py` | รัน Pretraining (LoRA) |
 | `05_adapter.py` | ทดสอบโมเดลหลัง pretrain |

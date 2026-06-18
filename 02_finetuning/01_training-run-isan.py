@@ -76,10 +76,16 @@ def run_training_phase(model, tokenizer, data_dir, adapter_file, phase_name, ite
     
     class MetricsReporter:
         def on_train_loss_report(self, info):
-            print(f"🔄 Step {info['iteration']:04d} | Train Loss: {info['train_loss']:.4f} | ความเร็ว: {info['iterations_per_second']:.2f} it/sec")
+            # แสดงผลทุกขั้นตอนการเทรน
+            step = info['iteration']           # ขั้นตอนที่เท่าไหร่
+            loss = info['train_loss']          # ค่าความผิดพลาด (ยิ่งน้อยยิ่งดี)
+            speed = info['iterations_per_second']  # ความเร็วในการเทรน
+            print(f"🔄 ขั้นตอนที่ {step:04d} | ความผิดพลาด: {loss:.4f} | ความเร็ว: {speed:.2f} ครั้ง/วินาที")
             
         def on_val_loss_report(self, info):
-            print(f"\n✨ ---> Validation Loss: {info['val_loss']:.4f} <---✨\n")
+            # แสดงผลทดสอบ (ข้อมูลที่โมเดลไม่เคยเห็น)
+            val_loss = info['val_loss']        # ค่าความผิดพลาดจากการทดสอบ
+            print(f"\n📝 ผลทดสอบ (Validation): ความผิดพลาด = {val_loss:.4f}\n")
     
     os.makedirs(os.path.dirname(adapter_file), exist_ok=True)
     

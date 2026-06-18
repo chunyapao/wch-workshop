@@ -2,10 +2,10 @@
 สคริปต์นี้แบ่งข้อมูลดิบเป็น Train/Valid สำหรับ Pretraining
 
 📌 ค่า config ที่สำคัญ:
-  • split_idx = int(len(paragraphs) * 0.8) → แบ่ง 80% Train, 20% Valid
+  • split_idx = int(len(paragraphs) * 0.7) → แบ่ง 70% Train, 30% Valid
     - ถ้า Train มาก: โมเดลเรียนรู้ข้อมูลได้เยอะ แต่ Validate น้อย
     - ถ้า Valid มาก: ประเมินผลแม่นยำ แต่ข้อมูลสอนน้อย
-    - 80/20 เป็นค่ามาตรฐานที่ใช้กันทั่วไป
+    - 70/30 ใช้เมื่อข้อมูลน้อย เพื่อให้ Validation มีอย่างน้อย 2 ตัวอย่าง
 
 💡 ผลต่อ Inference:
   - ข้อมูล Train คือสิ่งที่โมเดล "จำ" ได้
@@ -20,10 +20,15 @@ import os
 with open("./dataset/ex-data-quality.txt", "r", encoding="utf-8") as f:
     paragraphs = [line.strip() for line in f if line.strip()]
 
-# 2. แบ่งข้อมูลเป็น Train (80%) และ Valid (20%)
-split_idx = int(len(paragraphs) * 0.8)
+# 2. แบ่งข้อมูลเป็น Train (70%) และ Valid (30%)
+# เปลี่ยนจาก 80/20 เป็น 70/30 เพื่อให้ Validation มีอย่างน้อย 2 ตัวอย่าง
+split_idx = int(len(paragraphs) * 0.7)
 train_data = paragraphs[:split_idx]
 valid_data = paragraphs[split_idx:]
+
+print(f"📊 ข้อมูลทั้งหมด: {len(paragraphs)} ย่อหน้า")
+print(f"📊 Train: {len(train_data)} ย่อหน้า")
+print(f"📊 Valid: {len(valid_data)} ย่อหน้า")
 
 # 3. ฟังก์ชันสำหรับบันทึกเป็น JSONL
 def save_jsonl(data, filename):

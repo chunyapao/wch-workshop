@@ -2,21 +2,29 @@
 สคริปต์นี้ “จัดแพ็ก” ข้อมูลดิบให้เป็นก้อนๆ ขนาดเท่ากัน เพื่อเตรียมเทรน
 
 📌 ค่า config ที่สำคัญ:
-  • BLOCK_SIZE = 128 → ขนาดของแต่ละก้อนข้อมูล (Token)
+  • BLOCK_SIZE = 64 → ขนาดของแต่ละก้อนข้อมูล (Token)
     - ถ้าค่าน้อย: ข้อมูลถูกหั่นละเอียด โมเดลเห็นบริบทสั้น
     - ถ้าค่ามาก: ข้อมูลแต่ละก้อนยาว โมเดลเห็นบริบทยาว แต่ใช้ RAM มาก
-    - 128 Token ≈ 60-80 คำ เหมาะกับข้อมูลสั้นๆ
+    - 64 Token ≈ 30-40 คำ เหมาะกับข้อมูลน้อย
 
   • add_special_tokens=False → ไม่เติม <bos>/<eos> อัตโนมัติ
     - เราเติมเองเพื่อให้ควบคุมได้ว่าก้อนไหนเริ่ม-จบ
 
 💡 ผลต่อ Inference:
   - BLOCK_SIZE = max_seq_length ตอนเทรน = ความยาวบริบทที่โมเดล “จำ” ได้
-  - ถ้าตอน inference ป้อนข้อความยาวกว่า 128 Token → โมเดลจะ “ลืม” ส่วนที่เกิน
+  - ถ้าตอน inference ป้อนข้อความยาวกว่า 64 Token → โมเดลจะ “ลืม” ส่วนที่เกิน
   - bos/eos ช่วยบอกโมเดลว่า “ข้อความเริ่มที่นี่” และ “จบที่นี่”
 """
 import json
+import os
+from pathlib import Path
+from dotenv import load_dotenv
 from transformers import AutoTokenizer
+
+# โหลดค่าจากไฟล์ .env (ที่ root ของโปรเจกต์)
+env_path = Path(__file__).parent.parent / ".env"
+load_dotenv(env_path)
+BLOCK_SIZE = int(os.getenv("BLOCK_SIZE", "64"))
 
 
 def pack_data(input_file, output_file, tokenizer_name, block_size=512):
@@ -42,13 +50,14 @@ def pack_data(input_file, output_file, tokenizer_name, block_size=512):
                 tokens + [tokenizer.eos_token_id]
             all_tokens.extend(tokens)
 
-    # 3. หั่น Token ทั้งหมดเป็นก้อนๆ (Chunks) ขนาดเท่ากับ block_size เป๊ะๆ
+    # 3. หั่น Token ทั้งหมดเป็นก้อนๆ (Chunks)
+    # เก็บทุกก้อน แม้ก้อนสุดท้ายจะไม่ครบ block_size (เพื่อไม่เสียข้อมูล)
     packed_data = []
     for i in range(0, len(all_tokens), block_size):
         chunk = all_tokens[i: i + block_size]
 
-        # ตัดเศษตอนท้ายทิ้งถ้าความยาวไม่ถึง block_size
-        if len(chunk) == block_size:
+        # เก็บทุกก้อนที่มีข้อมูล (ก้อนสุดท้ายอาจสั้นกว่า block_size)
+        if len(chunk) > 0:
             # แปลงกลับเป็น Text เพื่อให้ mlx_lm นำไปอ่านได้แบบไม่มีปัญหาเรื่อง Format
             chunk_text = tokenizer.decode(chunk)
             packed_data.append({"text": chunk_text})
@@ -66,7 +75,8 @@ def pack_data(input_file, output_file, tokenizer_name, block_size=512):
 if __name__ == "__main__":
     # ระบุชื่อโมเดลของ Typhoon เพื่อใช้ Tokenizer ให้ตรงตัว
     TOKENIZER_ID = "typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit"
-    BLOCK_SIZE = 128  # ปรับให้ตรงกับ --max-seq-length ใน mlx_lm
+    
+    print(f"📌 BLOCK_SIZE จาก .env: {BLOCK_SIZE}")
 
     # สมมติว่าไฟล์เดิมชื่อ train.jsonl และ valid.jsonl อยู่ในโฟลเดอร์ data/
     pack_data(
