@@ -132,19 +132,27 @@ def main():
     # -----------------------------------------
     # คลาสนี้จะถูกเรียกใช้อัตโนมัติในลูป เพื่อให้เราเห็นตัวเลขขยับไปมาตอนเทรน
     class MetricsReporter:
+        def __init__(self, total_iters):
+            self.total_iters = total_iters
+            self.best_val_loss = float('inf')
+        
         def on_train_loss_report(self, info):
-            # แสดงผลทุกขั้นตอนการเทรน
-            step = info['iteration']           # ขั้นตอนที่เท่าไหร่
-            loss = info['train_loss']          # ค่าความผิดพลาด (ยิ่งน้อยยิ่งดี)
-            speed = info['iterations_per_second']  # ความเร็วในการเทรน
-            print(f"🔄 ขั้นตอนที่ {step:03d} | ความผิดพลาด: {loss:.4f} | ความเร็ว: {speed:.2f} ครั้ง/วินาที")
+            step = info['iteration']
+            loss = info['train_loss']
+            speed = info['iterations_per_second']
+            pct = step / self.total_iters * 100
+            progress_bar = '█' * int(pct // 5) + '░' * (20 - int(pct // 5))
+            print(f"  [{progress_bar}] {pct:5.1f}% | ขั้น {step:3d}/{self.total_iters} | loss: {loss:.4f} | {speed:.1f} it/s")
             
         def on_val_loss_report(self, info):
-            # แสดงผลทดสอบ (ข้อมูลที่โมเดลไม่เคยเห็น)
-            val_loss = info['val_loss']        # ค่าความผิดพลาดจากการทดสอบ
-            print(f"\n📝 ผลทดสอบ (Validation): ความผิดพลาด = {val_loss:.4f}\n")
+            val_loss = info['val_loss']
+            improved = '✨' if val_loss < self.best_val_loss else '  '
+            self.best_val_loss = min(val_loss, self.best_val_loss)
+            print(f"  {'─'*60}")
+            print(f"  {improved} Val loss: {val_loss:.4f} (ดีที่สุด: {self.best_val_loss:.4f})")
+            print(f"  {'─'*60}")
             
-    metrics = MetricsReporter()
+    metrics = MetricsReporter(total_iters=TRAINING_ITERS)
     
     # -----------------------------------------
     # 6. เริ่มเทรน!

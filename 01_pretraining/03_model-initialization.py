@@ -7,10 +7,10 @@
     - ถ้าค่ามาก: เรียนรู้เร็ว แต่ใช้ RAM มาก
     - 8 เลเยอร์สุดท้ายเป็นค่ามาตรฐานสำหรับโมเดล 1B
 
-  • rank = 24 → ขนาดของ Matrix ใน LoRA
+  • rank = 16 → ขนาดของ Matrix ใน LoRA
     - ถ้าค่าน้อย: ความสามารถจำกัด เรียนรู้ได้เฉพาะรูปแบบง่ายๆ
     - ถ้าค่ามาก: ความสามารถสูง แต่ใช้ RAM มากและอาจ overfit
-    - 24 เป็นค่ากลางๆ สำหรับโมเดล 1B
+    - 16 เป็นค่ามาตรฐาน ต้องตรงกับ LORA_RANK ใน .env
 
   • scale = 2.0 → สเกลของ LoRA (คูณกับน้ำหนัก LoRA)
     - ค่ามาก: LoRA มีอิทธิพลมาก → คำตอบเปลี่ยนจาก Base Model มาก
@@ -80,7 +80,7 @@ def initialize_model():
     num_lora_layers = 8  # จำนวนเลเยอร์ที่จะเพิ่ม LoRA (นับจากท้าย)
     
     lora_config = {
-        "rank": 24,      # ขนาด Matrix: ยิ่งใหญ่ = ความสามารถสูง แต่กิน RAM
+        "rank": 16,      # ขนาด Matrix: ต้องตรงกับ LORA_RANK ใน .env
         "scale": 2.0,    # อิทธิพลของ LoRA: 2.0 = LoRA มีน้ำหนัก 2 เท่า
         "dropout": 0.05  # ป้องกัน overfit: 5% = ตัด neuron ทิ้ง 5% ตอนเทรน
     }
@@ -118,7 +118,7 @@ def initialize_model():
         "model_type": model.model_type,      # "llama"
         "num_layers": num_lora_layers,       # 8
         "lora_parameters": {
-            "rank": lora_config["rank"],     # 24
+            "rank": lora_config["rank"],     # 16
             "scale": lora_config["scale"],   # 2.0
             "dropout": lora_config["dropout"] # 0.05
         }
