@@ -14,10 +14,10 @@
     - ต้องมีไฟล์ adapters.safetensors และ adapter_config.json
     - ถ้าไม่มี → โหลดไม่ได้ หรือคำตอบไม่เปลี่ยนจาก Base Model
 
-  • max_seq_length=256 → ความยาวสูงสุดของข้อความที่โมเดลเห็นตอนเทรน
+  • max_seq_length=768 → ความยาวสูงสุดของข้อความที่โมเดลเห็นตอนเทรน
     - ถ้าค่ามาก: โมเดลเห็นบริบทยาว แต่ใช้ RAM มาก
     - ค่าน้อย: โมเดลเห็นบริบทสั้น แต่ใช้ RAM น้อย
-    - 256 เหมาะกับข้อมูลสั้นๆ เช่น ข้อความสนทนา (ลดจาก 512 เพื่อความเร็ว)
+    - 768 รองรับข้อมูลยาวสูงสุด ~583 tokens ในรอบที่ 2
 
   • learning_rate=1e-4 → อัตราการเรียนรู้
     - ถ้าค่ามาก: เรียนรู้เร็ว แต่อาจ "ข้าม" จุดที่ดีที่สุด
@@ -67,7 +67,7 @@ def run_training_phase(model, tokenizer, data_dir, adapter_file, phase_name, ite
         adapter_file=adapter_file,
         iters=iters,
         batch_size=1,
-        max_seq_length=256,
+        max_seq_length=768,
         steps_per_eval=10,
         steps_per_save=iters,
     )
@@ -121,7 +121,7 @@ def main():
         data_dir="./data/dataset",
         adapter_file="./adapters/phase1/adapters.safetensors",
         phase_name="รอบที่ 1: เรียนรู้ภาษาอีสาน (ข้อมูลใหญ่)",
-        iters=200
+        iters=100
     )
     
     # สำเนา adapter_config.json ไปยัง phase1/ (mlx_lm train() ไม่ได้สร้างให้อัตโนมัติ)
