@@ -17,7 +17,7 @@
 import json
 import os
 
-MIN_CHARS = 128  # จำนวนตัวอักษรขั้นต่ำต่อย่อหน้าที่รวมแล้ว
+MIN_CHARS = 64  # จำนวนตัวอักษรขั้นต่ำต่อย่อหน้าที่รวมแล้ว
 
 # 1. อ่านไฟล์ข้อความดิบ
 with open("./dataset/ex-data-quality.txt", "r", encoding="utf-8") as f:
