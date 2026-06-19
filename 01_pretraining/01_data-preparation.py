@@ -7,7 +7,7 @@
      เพราะไม่ใช่ประโยคที่มีเนื้อหา → โมเดลจะเรียนรู้ข้อความไร้สาระ
   3. รวมย่อหน้าสั้นๆ เข้าด้วยกัน ให้ได้ย่อหน้าที่สมบูรณ์ (≥ 120 ตัวอักษร)
      เพื่อให้แต่ละ block ตอนเทรนมีบริบทยาว → โมเดลตอบยาวขึ้น
-  4. แบ่งเป็น Train (90%) / Valid (10%)
+  4. แบ่งเป็น Train (80%) / Valid (20%)
 
 💡 ทำไมต้องรวมย่อหน้า?
   - ข้อมูลดิบแต่ละบรรทัดสั้นมาก (20-80 ตัวอักษร)
@@ -46,8 +46,8 @@ if current_group:
     else:
         grouped_paragraphs.append(current_group)
 
-# 4. แบ่งข้อมูลเป็น Train (90%) และ Valid (10%)
-split_idx = int(len(grouped_paragraphs) * 0.9)
+# 4. แบ่งข้อมูลเป็น Train (80%) และ Valid (20%)
+split_idx = int(len(grouped_paragraphs) * 0.8)
 if split_idx == 0:
     split_idx = 1  # อย่างน้อย Train ต้องมี 1 ตัวอย่าง
 train_data = grouped_paragraphs[:split_idx]
