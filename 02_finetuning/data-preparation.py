@@ -1,7 +1,12 @@
 """
 สคริปต์นี้โหลด Dataset ภาษาอีสานจาก Hugging Face และเตรียมข้อมูลสำหรับ Fine-tuning
 
+⚠️ หมายเหตุ: สคริปต์นี้ไม่ได้ถูกใช้ในระบบปัจจุบัน
+  - ใช้ 00_convert-data.py แทน (แปลงข้อมูลจาก Pretraining)
+  - สคริปต์นี้ใช้สำหรับโหลดข้อมูลจาก Hugging Face โดยตรง
+
 📌 ค่า config ที่สำคัญ:
+  • dataset_name = "typhoon-ai/thai-dialect-isan-dataset" → Dataset จาก Hugging Face
   • test_size=0.1 → แบ่ง 10% สำหรับ Validation
     - ถ้าค่ามาก: ข้อมูลเทรนน้อย แต่ Validate แม่นยำ
     - ค่าน้อย: ข้อมูลเทรนเยอะ แต่ Validate น้อย
