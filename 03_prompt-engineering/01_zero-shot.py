@@ -2,7 +2,7 @@
 สคริปต์นี้แสดงการใช้งาน Zero-Shot Prompting (ถามคำถามโดยตรง)
 
 📌 ค่า config ที่สำคัญ:
-  • max_tokens=130 → จำกัดคำตอบ 130 Token
+  • max_tokens=768 → จำกัดคำตอบ 768 Token
     - ถ้าค่าน้อย: คำตอบสั้น อาจไม่ครบถ้วน
     - ถ้าค่ามาก: คำตอบยาว แต่ใช้เวลานาน
 
@@ -34,7 +34,7 @@ response = generate(
     model,
     tokenizer,
     prompt=prompt,
-    max_tokens=130,
+    max_tokens=768,
     verbose=True
 )
 

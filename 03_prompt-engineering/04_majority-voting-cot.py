@@ -77,7 +77,7 @@ for i in range(num_votes):
         model,
         tokenizer,
         prompt=cot_prompt,
-        max_tokens=130,
+        max_tokens=768,
         verbose=False
     )
     
