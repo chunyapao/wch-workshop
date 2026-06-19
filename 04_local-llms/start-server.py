@@ -26,7 +26,7 @@ model_id = "typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit"
 
 # ใช้ absolute path เพื่อให้ทำงานได้จากทุก directory
 script_dir = Path(__file__).parent.resolve()
-adapter_path = str(script_dir.parent / "03_finetuning" / "adapters")
+adapter_path = str(script_dir.parent / "02_finetuning" / "adapters")
 
 # 2. สร้างคำสั่งสำหรับเริ่ม Server
 cmd = [

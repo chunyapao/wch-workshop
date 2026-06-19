@@ -21,5 +21,6 @@ Server จะพร้อมที่ `http://localhost:8080`
 ```bash
 curl http://localhost:8080/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -d '{"model": "default", "messages": [{"role": "user", "content": "สวัสดี"}]}'
+  -d '{"model": "typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit", "messages": [{"role": "user", "content": "สวัสดี"}]}'  | jq -r '.choices[0].message.content'
 ```
+**หมายเหตุ:** ใช้ `jq -r` เพื่อแยกเฉพาะเนื้อหาคำตอบ (ไม่ต้องอ่าน JSON ทั้งหมด)
