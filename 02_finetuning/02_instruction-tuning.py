@@ -20,7 +20,7 @@ adapter_path = "./adapters"
 
 model, tokenizer = load(base_model, adapter_path=adapter_path)
 
-prompt = "บุญส่ง ศรีทอง ทำงานที่แรกปีอะไร?"
+prompt = "บุญส่ง ศรีทอง เคยทำงานที่ไหน?"
 
 # 📌 apply_chat_template → แปลงข้อความเป็นรูปแบบ Chat
 # ผล: โมเดลจะตอบเป็นรูปแบบบทสนทนา (ไม่ใช่ข้อความเพียวๆ)

@@ -19,7 +19,7 @@ adapter_path = "../01_pretraining/adapters"
 
 model, tokenizer = load(base_model, adapter_path=adapter_path)
 
-prompt = "บุญส่ง ศรีทอง ทำงานที่แรกปีอะไร?"
+prompt = "บุญส่ง ศรีทอง เคยทำงานที่ไหน?"
 
 # หรือรูปแบบที่มีโครงสร้างชัดเจน
 # 1. สร้าง Prompt สำหรับ Zero-Shot Prompting

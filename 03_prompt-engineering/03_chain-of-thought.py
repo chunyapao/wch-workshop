@@ -22,7 +22,7 @@ model, tokenizer = load(base_model, adapter_path=adapter_path)
 
 # 1. สร้าง Prompt แบบ Chain-of-Thought (ให้โมเดลคิดเป็นขั้นตอน)
 prompt = """
-คำถาม: บุญส่ง ศรีทอง ทำงานที่แรกปีอะไร?
+คำถาม: บุญส่ง ศรีทอง เคยทำงานที่ไหน?
 
 ให้คิดเป็นขั้นตอนทีละขั้น:
 

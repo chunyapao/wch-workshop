@@ -22,7 +22,7 @@ adapter_path = "./adapters"
 # ผล: คำตอบจะเปลี่ยนไปจาก Base Model (มีความรู้ใหม่จาก Adapter)
 model, tokenizer = load(base_model, adapter_path=adapter_path)
 
-prompt = "บุญส่ง ศรีทอง เคยทำงานที่?"
+prompt = "บุญส่ง ศรีทอง เคยทำงานที่ไหน?"
 
 response = generate(
     model,

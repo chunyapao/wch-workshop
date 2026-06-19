@@ -20,7 +20,7 @@ from mlx_lm.sample_utils import make_sampler
 
 
 model, tokenizer = load("typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit")
-prompt = "บุญส่ง ศรีทอง เคยทำงานที่?"
+prompt = "บุญส่ง ศรีทอง เคยทำงานที่ไหน?"
 
 # 📌 generate() = สร้างคำตอบจากโมเดล
 # max_tokens=130 → คำตอบยาวสุด 130 Token (≈60-80 คำ)
