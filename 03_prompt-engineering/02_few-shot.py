@@ -15,7 +15,7 @@
 from mlx_lm import load, generate
 
 base_model = "typhoon-ai/llama3.2-typhoon2-1b-mlx-4bit"
-adapter_path = "../01_pretraining/adapters"
+adapter_path = "../02_finetuning/adapters"
 
 model, tokenizer = load(base_model, adapter_path=adapter_path)
 
@@ -32,7 +32,7 @@ prompt = """
 คำถาม: ประเสริฐ มั่นคง ทำงานที่แรกที่ไหน?
 คำตอบ: ประเสริฐ มั่นคง เริ่มทำงานแรกที่ธนาคารกรุงไทย สาขากรุงเทพฯ ในตำแหน่งพนักงานบริการลูกค้า เมื่อปี 2548
 
-คำถาม: บุญส่ง ศรีทอง เคยทำงานที่ไหน?
+คำถาม: บุญส่ง ศรีทอง ทำงานที่แรกปีอะไร?
 คำตอบ:
 """
 
